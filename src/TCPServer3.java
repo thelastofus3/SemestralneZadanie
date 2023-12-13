@@ -48,7 +48,7 @@ public class TCPServer3 {
     }
     private static void startRegistrationMenu(BufferedReader reader, PrintWriter writer, Connection connection, Socket clientSocket) throws IOException, SQLException {
         while (true){
-            writer.println("1.LogIn 2.Register 3.Exit");
+            writer.println("1.\uD83D\uDD12LogIn 2.\uD83D\uDCDDRegister 3.\uD83D\uDEAAExit");
             String answer = reader.readLine();
             System.out.println("Response received:" + answer);
             switch (answer){
@@ -71,12 +71,12 @@ public class TCPServer3 {
     }
     private static void handleLogin(BufferedReader reader, PrintWriter writer, Connection connection,Socket clientSocket) throws SQLException, IOException {
         // Prompt for entering the username
-        writer.println("Enter username:");
+        writer.println("\uD83C\uDD94Enter_username:");
         String loginCheck = reader.readLine();
         System.out.println("Username received: " + loginCheck);
 
 // Prompt for entering the password
-        writer.println("Enter password:");
+        writer.println("\uD83D\uDD13Enter_password:");
         String passwordCheck = reader.readLine();
         System.out.println("Password received: " + passwordCheck);
 
@@ -84,7 +84,7 @@ public class TCPServer3 {
         ResultSet resultSet1 = userLogsCheck(loginCheck, passwordCheck, connection);
         if (resultSet1.next()) {
             System.out.println("Record found in the userlogs table.");
-            writer.println("1. Add new book 2. Show all books 3. Exit 4. Back");
+            writer.println("1.\uD83D\uDCD6Add_new_book 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDEAAExit 4.⬅\uFE0FBack");
             String answer = reader.readLine();
             System.out.println("Response received: " + answer);
             startBookMenuUser(answer, reader, writer, connection, clientSocket, loginCheck);
@@ -95,7 +95,7 @@ public class TCPServer3 {
             ResultSet resultSet2 = adminLogsCheck(loginCheck, passwordCheck, connection);
             if (resultSet2.next()) {
                 System.out.println("Record found in the admin table.");
-                writer.println("1. Add new book to user 2. Show all books 3. Delete book 4. Add new user 5. Show all users 6. Exit 7. Back");
+                writer.println("1.\uD83D\uDCD6Add_new_book_to_user 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDDD1\uFE0FDelete_book 4.\uD83C\uDFADAdd_new_user 5.\uD83D\uDC65Show_all_users 6.\uD83D\uDEAAExit 7.⬅\uFE0FBack");
                 String answer = reader.readLine();
                 System.out.println("Response received: " + answer);
                 startBookMenuAdmin(answer, reader, writer, connection, clientSocket);
@@ -111,7 +111,7 @@ public class TCPServer3 {
             switch (answer){
                 case "1":
                     addNewBookUser(reader,writer,connection, loginCheck, clientSocket);
-                    writer.println("1. Add new book 2. Show all books 3. Exit 4. Back");
+                    writer.println("1.\uD83D\uDCD6Add_new_book 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDEAAExit 4.⬅\uFE0FBack");
                     startBookMenuUser(answer = reader.readLine(),reader,writer,connection,clientSocket,loginCheck);
                     break;
                 case "2":
@@ -126,7 +126,7 @@ public class TCPServer3 {
                     break;
                 default:
                     System.out.println("incorrect entered data");
-                    writer.println("1. Add new book 2. Show all books 3. Exit 4. Back");
+                    writer.println("1.\uD83D\uDCD6Add_new_book 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDEAAExit 4.⬅\uFE0FBack");
                     startBookMenuUser(answer = reader.readLine(),reader,writer,connection,clientSocket,loginCheck);
             }
         }
@@ -134,17 +134,17 @@ public class TCPServer3 {
     private static void addNewBookUser(BufferedReader reader, PrintWriter writer,Connection connection,String loginCheck ,Socket clientSocket) throws SQLException, IOException {
         int year;
 // Prompt for entering the book name
-        writer.println("Enter the book title:");
+        writer.println("\uD83D\uDCD3Enter_the_book_title:");
         String bookName = reader.readLine();
         System.out.println("Title received: " + bookName);
 
 // Prompt for entering the author
-        writer.println("Enter the author of the book:");
+        writer.println("✍\uFE0FEnter_the_author_of_the_book:");
         String bookAuthor = reader.readLine();
         System.out.println("Author received: " + bookAuthor);
 
 // Prompt for entering the release year
-        writer.println("Enter the release year of the book:");
+        writer.println("\uD83D\uDCC5Enter_the_release_year_of_the_book:");
         String bookYear = reader.readLine();
         try {
             year = Integer.parseInt(bookYear);
@@ -152,13 +152,13 @@ public class TCPServer3 {
         } catch (NumberFormatException e) {
             // Display an error message
             System.out.println("You did not enter a number. Please enter a valid number.");
-            writer.println("1. Add new book 2. Show all books 3. Exit 4. Back");
+            writer.println("1.\uD83D\uDCD6Add_new_book 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDEAAExit 4.⬅\uFE0FBack");
             String answer;
             startBookMenuUser(answer = reader.readLine(), reader, writer, connection, clientSocket, loginCheck);
         }
 
         System.out.println("Year received: " + bookYear);
-        String addBookQuery = "INSERT INTO books (nameOfBook, Author, year, login) VALUES (?, ?, ?, ?)";
+        String addBookQuery = "INSERT INTO books (nameOfBook, Autuor, year, login) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(addBookQuery);
         preparedStatement.setString(1, bookName);
         preparedStatement.setString(2, bookAuthor);
@@ -182,7 +182,7 @@ public class TCPServer3 {
             String column2 = resultSet.getString("Autuor");
             String column3 = resultSet.getString("year");
 
-            String bookInfo = column1 + " " + column2 + " " + column3;
+            String bookInfo = column1 + "_" + column2 + "_" + column3;
             booksData.append(bookInfo).append("|");
         }
         booksData.insert(0,"[").setCharAt(booksData.length()-1,']');
@@ -194,7 +194,7 @@ public class TCPServer3 {
             switch (answer){
                 case "1":
                     addNewBookAdmin(reader,writer,connection,clientSocket);
-                    writer.println("1. Add new book to user 2. Show all books 3. Delete book 4. Add new user 5. Show all users 6. Exit 7. Back");
+                    writer.println("1.\uD83D\uDCD6Add_new_book_to_user 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDDD1\uFE0FDelete_book 4.\uD83C\uDFADAdd_new_user 5.\uD83D\uDC65Show_all_users 6.\uD83D\uDEAAExit 7.⬅\uFE0FBack");
                     startBookMenuAdmin(answer = reader.readLine(),reader,writer,connection,clientSocket);
                     break;
                 case "2":
@@ -203,12 +203,12 @@ public class TCPServer3 {
                     break;
                 case "3":
                     deleteBook(reader,writer,connection);
-                    writer.println("1. Add new book to user 2. Show all books 3. Delete book 4. Add new user 5. Show all users 6. Exit 7. Back");
+                    writer.println("1.\uD83D\uDCD6Add_new_book_to_user 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDDD1\uFE0FDelete_book 4.\uD83C\uDFADAdd_new_user 5.\uD83D\uDC65Show_all_users 6.\uD83D\uDEAAExit 7.⬅\uFE0FBack");
                     startBookMenuAdmin(answer = reader.readLine(),reader,writer,connection,clientSocket);
                     break;
                 case "4":
                     handleRegistration(reader, writer, connection);
-                    writer.println("1. Add new book to user 2. Show all books 3. Delete book 4. Add new user 5. Show all users 6. Exit 7. Back");
+                    writer.println("1.\uD83D\uDCD6Add_new_book_to_user 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDDD1\uFE0FDelete_book 4.\uD83C\uDFADAdd_new_user 5.\uD83D\uDC65Show_all_users 6.\uD83D\uDEAAExit 7.⬅\uFE0FBack");
                     startBookMenuAdmin(answer = reader.readLine(),reader,writer,connection,clientSocket);
                     break;
                 case "5":
@@ -222,7 +222,7 @@ public class TCPServer3 {
                     break;
                 default:
                     System.out.println("incorrect entered data");
-                    writer.println("1. Add new book to user 2. Show all books 3. Delete book 4. Add new user 5. Show all users 6. Exit 7. Back");
+                    writer.println("1.\uD83D\uDCD6Add_new_book_to_user 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDDD1\uFE0FDelete_book 4.\uD83C\uDFADAdd_new_user 5.\uD83D\uDC65Show_all_users 6.\uD83D\uDEAAExit 7.⬅\uFE0FBack");
                     startBookMenuAdmin(answer = reader.readLine(),reader,writer,connection,clientSocket);
             }
         }
@@ -235,8 +235,8 @@ public class TCPServer3 {
         while (resultSet.next()) {
             String column = resultSet.getString("login");
 
-            String bookInfo = column + " ";
-            booksData.append(bookInfo).append(" |");
+            String bookInfo = column;
+            booksData.append(bookInfo).append("|");
         }
         booksData.insert(0,"[").setCharAt(booksData.length()-1,']');
         writer.println(booksData.toString().trim());
@@ -244,17 +244,17 @@ public class TCPServer3 {
     private static void addNewBookAdmin(BufferedReader reader,PrintWriter writer,Connection connection,Socket clientSocket) throws IOException, SQLException {
         int year;
 // Prompt for entering the book name
-        writer.println("Enter the book title:");
+        writer.println("\uD83D\uDCD3Enter_the_book_title:");
         String bookName = reader.readLine();
         System.out.println("Title received: " + bookName);
 
 // Prompt for entering the author
-        writer.println("Enter the author of the book:");
+        writer.println("✍\uFE0FEnter_the_author_of_the_book:");
         String bookAuthor = reader.readLine();
         System.out.println("Author received: " + bookAuthor);
 
 // Prompt for entering the release year
-        writer.println("Enter the release year of the book:");
+        writer.println("\uD83D\uDCC5Enter_the_release_year_of_the_book:");
         String bookYear = reader.readLine();
         System.out.println("Year received: " + bookYear);
         try {
@@ -263,13 +263,13 @@ public class TCPServer3 {
         } catch (NumberFormatException e) {
             // Display an error message
             System.out.println("You did not enter a number. Please enter a valid number.");
-            writer.println("1. Add new book to user 2. Show all books 3. Delete book 4. Add new user 5. Show all users 6. Exit 7. Back");
+            writer.println("1.\uD83D\uDCD6Add_new_book_to_user 2.\uD83D\uDCDAShow_all_books 3.\uD83D\uDDD1\uFE0FDelete_book 4.\uD83C\uDFADAdd_new_user 5.\uD83D\uDC65Show_all_users 6.\uD83D\uDEAAExit 7.⬅\uFE0FBack");
             String answer;
             startBookMenuAdmin(answer = reader.readLine(), reader, writer, connection, clientSocket);
         }
 
 // Prompt for entering the username
-        writer.println("Enter the username:");
+        writer.println("\uD83C\uDD94Enter_username:");
         String login = reader.readLine();
         System.out.println("Username received: " + login);
 
@@ -289,7 +289,7 @@ public class TCPServer3 {
     }
     private static void deleteBook(BufferedReader reader,PrintWriter writer,Connection connection) throws SQLException, IOException {
 // Prompt for entering the book name
-        writer.println("Enter the book title:");
+        writer.println("\uD83D\uDCD3Enter_the_book_title:");
         String bookName = reader.readLine();
         System.out.println("Title received: " + bookName);
 
@@ -324,7 +324,7 @@ public class TCPServer3 {
     }
     private static void handleRegistration(BufferedReader reader,PrintWriter writer,Connection connection) throws IOException, SQLException {
         // Prompt for entering the username
-        writer.println("Enter username:");
+        writer.println("\uD83C\uDD94Enter_username:");
         String addLogin = reader.readLine();
         if (addLogin.isEmpty()) {
             System.out.println("Username cannot be empty.");
@@ -332,7 +332,7 @@ public class TCPServer3 {
         }
 
 // Prompt for entering the password
-        writer.println("Enter password:");
+        writer.println("\uD83D\uDD13Enter_password:");
         String addPassword = reader.readLine();
         if (addPassword.isEmpty()) {
             System.out.println("Password cannot be empty.");
@@ -340,7 +340,7 @@ public class TCPServer3 {
         }
 
 // Prompt for entering the first name
-        writer.println("Enter first name:");
+        writer.println("\uD83D\uDC64Enter_firstname:");
         String addName = reader.readLine();
         if (addName.isEmpty()) {
             System.out.println("First name cannot be empty.");
@@ -348,7 +348,7 @@ public class TCPServer3 {
         }
 
 // Prompt for entering the last name
-        writer.println("Enter last name:");
+        writer.println("\uD83C\uDFF7\uFE0FEnter_lastname:");
         String addSurname = reader.readLine();
         if (addSurname.isEmpty()) {
             System.out.println("Last name cannot be empty.");
@@ -356,7 +356,7 @@ public class TCPServer3 {
         }
 
 // Prompt for entering the email
-        writer.println("Enter email:");
+        writer.println("\uD83D\uDCE7Enter_email:");
         String addEmail = reader.readLine();
         if (addEmail.isEmpty()) {
             System.out.println("Email cannot be empty.");
@@ -364,7 +364,7 @@ public class TCPServer3 {
         }
 
 // Prompt for entering the gender
-        writer.println("Enter gender:");
+        writer.println("♂\uFE0FEnter_gender:");
         String addGender = reader.readLine();
         if (addGender.isEmpty()) {
             System.out.println("Gender cannot be empty.");

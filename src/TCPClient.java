@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class TCPClient {
-
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Socket socket = new Socket("localhost", 12346);
@@ -22,6 +21,7 @@ public class TCPClient {
             if (Objects.equals(prompt, "exit")) {
                 break;
             }
+            prompt = prompt.replace(" ","\n");
             System.out.println(prompt);
             String password = scanner.nextLine();
             writer.println(password);
